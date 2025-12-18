@@ -1,0 +1,137 @@
+#!/bin/csh -f
+
+#----------Synopsys Environmental Variables---------------
+echo ""
+echo "Provided by IIT GANDHINAGAR"
+
+setenv CDS_Netlisting_Mode "Analog"
+setenv QRC_ENABLE_EXTRACTION
+
+#-----------------License setup--------------
+
+setenv SNPSLMD_LICENSE_FILE 27020@c2s.cdacb.in
+setenv FLEXLM_DIAGNOSTICS 3
+setenv LM_LICENSE_FILE 27020@c2s.cdacb.in
+
+setenv CWB_GL1_YES 1
+setenv ALTOS_QUEUE 1
+#-------SCL180nm Setup------#
+
+#-----------------Variable setup--------------
+
+# Base installation directory
+setenv SYNOPSYS_HOME /home/Synopsys/tools
+
+# Installed tools
+setenv SYN_HOME     $SYNOPSYS_HOME/syn/T-2022.03-SP5
+setenv ICC2_HOME    $SYNOPSYS_HOME/icc2/U-2022.12-SP3
+setenv PRIME_HOME   $SYNOPSYS_HOME/prime/U-2022.12-SP3
+setenv STARRC_HOME  $SYNOPSYS_HOME/starrc/U-2022.12-SP3
+setenv VCS_HOME     $SYNOPSYS_HOME/vcs/U-2023.03
+#setenv TESTMAX_HOME $SYNOPSYS_HOME/testmax/<version>   # Uncomment after install
+#setenv SPYGLASS_HOME $SYNOPSYS_HOME/spyglass/<version> # Uncomment after install
+
+# Synopsys License Server
+#setenv SNPSLMD_LICENSE_FILE 27000@<your_license_server>
+#setenv LM_LICENSE_FILE $SNPSLMD_LICENSE_FILE
+
+#-----------------Path setup--------------
+
+# Design Compiler / Fusion Compiler (syn)
+if ( -d $SYN_HOME/bin ) then
+    set path = ( $SYN_HOME/bin $path )
+endif
+
+# IC Compiler II
+if ( -d $ICC2_HOME/bin ) then
+    set path = ( $ICC2_HOME/bin $path )
+endif
+
+# PrimeTime / Prime Products
+if ( -d $PRIME_HOME/bin ) then
+    set path = ( $PRIME_HOME/bin $path )
+endif
+
+# StarRC
+if ( -d $STARRC_HOME/bin ) then
+    set path = ( $STARRC_HOME/bin $path )
+endif
+
+# VCS / Verilog Compiler Simulator
+if ( -d $VCS_HOME/bin ) then
+    set path = ( $VCS_HOME/bin $path )
+endif
+
+# TestMAX (after installation)
+#if ( $?TESTMAX_HOME && -d $TESTMAX_HOME/bin ) then
+#    set path = ( $TESTMAX_HOME/bin $path )
+#endif
+
+# SpyGlass (if added)
+#if ( $?SPYGLASS_HOME && -d $SPYGLASS_HOME/bin ) then
+#    set path = ( $SPYGLASS_HOME/bin $path )
+#endif
+
+#-----------------Temporary, logs, cache setup--------------
+
+setenv TMPDIR tmp
+setenv SNPS_TEMP $TMPDIR
+
+if ( ! -d $TMPDIR ) then
+    mkdir -p $TMPDIR
+endif
+
+#-----------------Synopsys Common Settings--------------
+
+# Prevent GUI scaling issues
+setenv SNPS_FORCE_64BIT 1
+
+# Avoid unsupported OA warnings
+setenv OA_UNSUPPORTED_PLAT linux_rhel50_gcc44x
+
+#-----------------Verification Echo--------------
+
+echo "**********************************************"
+#echo "Synopsys EDA tools environment setup complete"
+#echo "Tools configured:"
+#echo "   Design Compiler / SYn:   $SYN_HOME"
+#echo "   IC Compiler II:          $ICC2_HOME"
+#echo "   PrimeTime Suite:         $PRIME_HOME"
+#echo "   StarRC:                  $STARRC_HOME"
+#echo "   VCS:                     $VCS_HOME"
+#echo "**********************************************"
+#echo ""
+echo "Welcome to Synopsys Tool Suite"
+echo ""
+
+#---------End of synopsys toolRC--------------------------------------
+
+
+
+setenv KIT_DIR /home/Synopsys/pdk/SCL_PDK_3/SCLPDK_V3.0_KIT/scl180/pdk/cdns/sclpdk_v3
+setenv RDS_ROOT $KIT_DIR/HOTCODE
+setenv MGC_CALIBRE_CUSTOMIZATION_FILE $RDS_ROOT/techs/generic/calibre/calibre_ts_drc.custom
+setenv PERL5 /bin/perl
+source $RDS_ROOT/etc/RDS.cshrc
+source $RDS_ROOT/etc/cdsDesKit.cshrc
+source $RDS_ROOT/etc/cdsSystem.cshrc
+setenv PROJ_ROOT /home/Synopsys/
+echo "**********************************************"
+echo "SCL PDK flow setup with Cadence Virtuoso is complete"
+echo "**********************************************"
+
+#---------End of toolRC--------------------------------------
+#Default 64 bit toot setup
+setenv CDS_AUTO_64BIT ALL
+
+echo ""
+echo "Welcome to Synopsys Tool Suite"
+echo ""
+
+#OS related setup
+#setenv OA_UNSUPPORTED_PLAT linux_rhel50_gcc44x
+
+#pkill cdsNameServer
+#-----------------------------------------------------------
+
+
